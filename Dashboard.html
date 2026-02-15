@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Campus Connect</title>
+
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148,163,184,0.35);
+      --radius: 18px;
+      --radius-pill: 999px;
+      --shadow: 0 18px 45px rgba(15,23,42,0.85);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --max-width: 1040px;
+      --input-bg: rgba(15,23,42,0.98);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,.16), transparent 55%),
+        radial-gradient(circle at bottom, rgba(59,130,246,.18), transparent 55%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .navbar nav a {
+      font-size: 0.86rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: 0.18s;
+    }
+
+    .navbar nav a:hover {
+      color: var(--text);
+      background: rgba(56,189,248,0.14);
+      border-color: var(--border);
+    }
+
+    /* LAYOUT */
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 2.3rem 1.4rem 2.1rem;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    @media (min-width: 860px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* CARDS */
+    .card {
+      background: rgba(15,23,42,0.96);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.5rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,0.16), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-card h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.35rem;
+    }
+
+    .welcome-card p {
+      margin: 0.1rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* INPUTS & BUTTONS */
+    .row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .input {
+      flex: 1 1 auto;
+      min-width: 140px;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.65);
+      background: var(--input-bg);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      transition: 0.18s;
+    }
+
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.45);
+    }
+
+    .btn {
+      border-radius: var(--radius-pill);
+      padding: 0.52rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      transition: 0.18s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #38bdf8, #0ea5e9);
+      color: #0b1120;
+      box-shadow: 0 12px 28px rgba(56,189,248,0.4);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .section-title {
+      margin: 0 0 0.15rem;
+      font-size: 1.05rem;
+    }
+
+    .section-hint {
+      margin: 0;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    /* LISTS */
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.85rem;
+      min-height: 1.2rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      padding: 0.24rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.98);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .pill span {
+      max-width: 180px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .pill button {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .pill button:hover {
+      color: #f97373;
+    }
+
+    /* FOOTER (optional if you want it) */
+    footer {
+      border-top: 1px solid rgba(15,23,42,0.9);
+      padding: 1rem 1.4rem 1.3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.98), transparent 60%);
+      text-align: center;
+    }
+  </style>
+</head>
+<body onload="loadDashboard()">
+
+  <header class="navbar">
+    <h2>Campus Connect</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="groups.html">Groups</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About</a>
+      <a href="login.html">Login</a>
+      <a href="student-directory.html">Students</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="dashboard">
+
+      <!-- Welcome / Profile summary -->
+      <section class="card welcome-card">
+        <h2>Welcome, <span id="userName">Student</span> 👋</h2>
+        <p>Email: <span id="userEmail">you@example.com</span></p>
+      </section>
+
+      <!-- Skills + Groups grid -->
+      <section class="grid-2">
+
+        <!-- SKILLS -->
+        <section class="card">
+          <h3 class="section-title">Your Skills</h3>
+          <p class="section-hint">Add what you're good at — tech, tools, domains, anything.</p>
+
+          <div class="row">
+            <input id="skillInput" class="input" type="text" placeholder="Add a skill…" />
+            <button class="btn btn-primary" type="button" onclick="addSkill()">Add</button>
+          </div>
+
+          <div id="skillsList" class="pill-list"></div>
+        </section>
+
+        <!-- GROUPS -->
+        <section class="card">
+          <h3 class="section-title">Your Groups</h3>
+          <p class="section-hint">Track study groups, clubs, and project teams you’re part of.</p>
+
+          <div class="row">
+            <input id="groupInput" class="input" type="text" placeholder="Create or join a group…" />
+            <button class="btn btn-primary" type="button" onclick="addGroup()">Add</button>
+          </div>
+
+          <div id="groupsList" class="pill-list"></div>
+        </section>
+
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="yearDash"></span> Campus Connect
+  </footer>
+
+  <script>
+    const userNameSpan = document.getElementById("userName");
+    const userEmailSpan = document.getElementById("userEmail");
+    const yearSpan = document.getElementById("yearDash");
+
+    const skillsListEl = document.getElementById("skillsList");
+    const groupsListEl = document.getElementById("groupsList");
+    const skillInput = document.getElementById("skillInput");
+    const groupInput = document.getElementById("groupInput");
+
+    let skills = [];
+    let groups = [];
+
+    function loadDashboard() {
+      yearSpan.textContent = new Date().getFullYear();
+
+      // Example: currentUser stored in localStorage as JSON
+      // { "name": "Ansh Bhardwaj", "email": "ansh@example.com" }
+      const rawUser = localStorage.getItem("currentUser");
+      if (rawUser) {
+        try {
+          const user = JSON.parse(rawUser);
+          if (user.name) userNameSpan.textContent = user.name;
+          if (user.email) userEmailSpan.textContent = user.email;
+        } catch (e) {
+          console.warn("Invalid currentUser in localStorage");
+        }
+      }
+
+      // Load skills/groups from localStorage if present
+      const storedSkills = localStorage.getItem("skills");
+      const storedGroups = localStorage.getItem("groups");
+      if (storedSkills) {
+        try { skills = JSON.parse(storedSkills); } catch (_) {}
+      }
+      if (storedGroups) {
+        try { groups = JSON.parse(storedGroups); } catch (_) {}
+      }
+
+      renderSkills();
+      renderGroups();
+    }
+
+    function saveSkills() {
+      localStorage.setItem("skills", JSON.stringify(skills));
+    }
+
+    function saveGroups() {
+      localStorage.setItem("groups", JSON.stringify(groups));
+    }
+
+    function renderSkills() {
+      skillsListEl.innerHTML = "";
+      if (!skills.length) return;
+
+      skills.forEach((skill, index) => {
+        const pill = document.createElement("div");
+        pill.className = "pill";
+        const label = document.createElement("span");
+        label.textContent = skill;
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "✕";
+        removeBtn.title = "Remove";
+        removeBtn.onclick = () => {
+          skills.splice(index, 1);
+          saveSkills();
+          renderSkills();
+        };
+        pill.appendChild(label);
+        pill.appendChild(removeBtn);
+        skillsListEl.appendChild(pill);
+      });
+    }
+
+    function renderGroups() {
+      groupsListEl.innerHTML = "";
+      if (!groups.length) return;
+
+      groups.forEach((group, index) => {
+        const pill = document.createElement("div");
+        pill.className = "pill";
+        const label = document.createElement("span");
+        label.textContent = group;
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "✕";
+        removeBtn.title = "Leave group";
+        removeBtn.onclick = () => {
+          groups.splice(index, 1);
+          saveGroups();
+          renderGroups();
+        };
+        pill.appendChild(label);
+        pill.appendChild(removeBtn);
+        groupsListEl.appendChild(pill);
+      });
+    }
+
+    function addSkill() {
+      const value = skillInput.value.trim();
+      if (!value) return;
+      skills.push(value);
+      skillInput.value = "";
+      saveSkills();
+      renderSkills();
+    }
+
+    function addGroup() {
+      const value = groupInput.value.trim();
+      if (!value) return;
+      groups.push(value);
+      groupInput.value = "";
+      saveGroups();
+      renderGroups();
+    }
+  </script>
+</body>
+</html>

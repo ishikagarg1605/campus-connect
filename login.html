@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Campus Connect</title>
+
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148,163,184,0.35);
+      --radius: 18px;
+      --radius-pill: 999px;
+      --shadow: 0 18px 45px rgba(15,23,42,0.85);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --input-bg: rgba(15,23,42,0.98);
+      --max-width: 420px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,.16), transparent 55%),
+        radial-gradient(circle at bottom, rgba(59,130,246,.18), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      backdrop-filter: blur(14px);
+      background: rgba(15,23,42,0.9);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .navbar nav a {
+      font-size: 0.86rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: 0.18s;
+    }
+
+    .navbar nav a:hover {
+      color: var(--text);
+      background: rgba(56,189,248,0.14);
+      border-color: var(--border);
+    }
+
+    /* LAYOUT */
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2.4rem 1.4rem 2rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: var(--max-width);
+      background: rgba(15,23,42,0.96);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.8rem 1.9rem 1.7rem;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.14), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,0.16), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.4rem;
+    }
+
+    .subtitle {
+      margin: 0 0 1.3rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* FORM */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .input {
+      width: 100%;
+      margin-top: 0.2rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.65);
+      background: var(--input-bg);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      transition: 0.18s;
+    }
+
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.45);
+    }
+
+    .form-footer {
+      margin-top: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .remember input {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--accent-strong);
+    }
+
+    /* BUTTON */
+    .btn {
+      border-radius: var(--radius-pill);
+      padding: 0.55rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      transition: 0.18s;
+      width: 100%;
+      margin-top: 0.4rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #38bdf8, #0ea5e9);
+      color: #0b1120;
+      box-shadow: 0 12px 28px rgba(56,189,248,0.4);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .auth-footer {
+      margin-top: 1rem;
+      font-size: 0.86rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .auth-footer span {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <h2>Campus Connect</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="groups.html">Groups</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="card">
+      <h2>Login</h2>
+      <p class="subtitle">Sign in with your college email to continue.</p>
+
+      <form id="loginForm">
+        <div>
+          <label for="email">College Email</label>
+          <input
+            id="email"
+            class="input"
+            type="email"
+            placeholder="you@college.edu"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input
+            id="password"
+            class="input"
+            type="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+
+        <div class="form-footer">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe" />
+            <span>Remember me</span>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+
+      <p class="auth-footer">
+        Don't have an account?
+        <span><a href="signup.html">Create one</a></span>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) return;
+
+      // Dummy front-end “login”
+      const user = {
+        email,
+        name: email.split("@")[0] || "Student"
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      // Redirect to dashboard after login
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

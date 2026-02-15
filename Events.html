@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Events — Campus Connect</title>
+
+    <style>
+      :root {
+        --bg: #020617;
+        --accent: #38bdf8;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --border: rgba(148, 163, 184, 0.35);
+        --radius: 18px;
+        --radius-pill: 999px;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+        --font:
+          system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --card-bg: rgba(15, 23, 42, 0.96);
+        --max-width: 900px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--font);
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(56, 189, 248, 0.16),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at bottom,
+            rgba(59, 130, 246, 0.18),
+            transparent 55%
+          ),
+          var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* NAVBAR */
+      .navbar {
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1.5rem;
+        backdrop-filter: blur(14px);
+        background: rgba(15, 23, 42, 0.9);
+        border-bottom: 1px solid var(--border);
+        z-index: 10;
+      }
+
+      .navbar h2 {
+        margin: 0;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .navbar nav {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .navbar nav a {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.86rem;
+        color: var(--muted);
+        border-radius: var(--radius-pill);
+        border: 1px solid transparent;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+
+      .navbar nav a:hover {
+        color: var(--text);
+        background: rgba(56, 189, 248, 0.14);
+        border-color: var(--border);
+      }
+
+      /* LAYOUT */
+      .container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 2rem auto;
+        padding: 0 1.4rem;
+        flex: 1;
+      }
+
+      /* CARD */
+      .card {
+        background: var(--card-bg);
+        border-radius: 22px;
+        border: 1px solid var(--border);
+        padding: 1.9rem 1.8rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background:
+          radial-gradient(
+            circle at 0 0,
+            rgba(56, 189, 248, 0.14),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 100% 100%,
+            rgba(59, 130, 246, 0.14),
+            transparent 55%
+          );
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      h2 {
+        margin: 0 0 0.4rem;
+        font-size: 1.3rem;
+      }
+
+      .subtitle {
+        margin: 0 0 1.1rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      /* BUTTONS */
+      .btn {
+        padding: 0.45rem 1rem;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text);
+        transition: 0.18s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(to right, #38bdf8, #0ea5e9);
+        color: #0b1120;
+        box-shadow: 0 10px 24px rgba(56, 189, 248, 0.4);
+      }
+
+      .btn-primary:hover {
+        filter: brightness(1.06);
+        transform: translateY(-1px);
+      }
+
+      .btn-outline {
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .btn-outline:hover {
+        color: var(--text);
+        border-color: var(--accent);
+        background: rgba(15, 23, 42, 1);
+      }
+
+      /* EVENT LIST ITEMS */
+      .list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1rem;
+        margin-top: 0.9rem;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        background: rgba(15, 23, 42, 0.95);
+        transition: 0.2s;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .list-item:hover {
+        border-color: var(--accent);
+        background: rgba(15, 23, 42, 0.98);
+        transform: translateY(-1px);
+      }
+
+      .list-item strong {
+        font-size: 1rem;
+        color: var(--text);
+      }
+
+      .list-item small {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      /* FOOTER (optional if you want one) */
+      footer {
+        border-top: 1px solid rgba(15, 23, 42, 0.9);
+        padding: 1rem 1.4rem 1.3rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+        background: radial-gradient(
+          circle at top,
+          rgba(15, 23, 42, 0.98),
+          transparent 60%
+        );
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <h2>Campus Connect</h2>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="groups.html">Groups</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="login.html">Login</a>
+        <a href="student-directory.html">Students</a>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="card">
+        <h2>Upcoming Events</h2>
+        <p class="subtitle">RSVP to stay in the loop for campus activities.</p>
+
+        <button class="btn btn-primary" style="margin-bottom: 1rem">
+          Create Event
+        </button>
+
+        <div class="list-item">
+          <div>
+            <strong>Hackathon</strong><br />
+            <small>Tomorrow • 4:00 PM</small>
+          </div>
+          <button
+            class="btn btn-outline"
+            onclick="handleRSVP(this, 'Hackathon')"
+          >
+            RSVP
+          </button>
+        </div>
+
+        <div class="list-item">
+          <div>
+            <strong>Design Meetup</strong><br />
+            <small>Today • 2:00 PM</small>
+          </div>
+          <button
+            class="btn btn-outline"
+            onclick="handleRSVP(this, 'Design Meetup')"
+          >
+            RSVP
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>© <span id="yearEvents"></span> Campus Connect</footer>
+
+    <script>
+      document.getElementById("yearEvents").textContent =
+        new Date().getFullYear();
+
+      function handleRSVP(button, eventName) {
+        if (button.dataset.joined === "true") {
+          alert("You already RSVPed for " + eventName + ".");
+          return;
+        }
+
+        button.dataset.joined = "true";
+        button.textContent = "RSVPed";
+        button.classList.remove("btn-outline");
+        button.classList.add("btn-primary");
+
+        alert("You're in for " + eventName + " 🎉");
+      }
+    </script>
+  </body>
+</html>

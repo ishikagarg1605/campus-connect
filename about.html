@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Connect — About & Help</title>
+
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148,163,184,0.3);
+      --radius: 18px;
+      --shadow: 0 18px 45px rgba(15,23,42,0.8);
+      --font: system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, rgba(56,189,248,.16), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(59,130,246,.18), transparent 55%),
+                  var(--bg);
+      font-family: var(--font);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      padding: 0.9rem 1.5rem;
+      backdrop-filter: blur(14px);
+      background: rgba(15,23,42,0.85);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .brand {
+      font-weight: 700;
+      letter-spacing: .06em;
+      font-size: 1rem;
+    }
+
+    .navbar a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 30px;
+      transition: .18s;
+    }
+
+    .navbar a:hover {
+      background: rgba(56,189,248,0.15);
+      color: var(--text);
+    }
+
+    /* MAIN CARD */
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 2.5rem 1.3rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(15,23,42,0.9);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,.12), transparent 55%);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    p.lead {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.6;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      gap: 1.7rem;
+    }
+
+    @media(min-width: 700px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .list li {
+      padding: 0.7rem 0.9rem;
+      background: rgba(56,189,248,.08);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .list span {
+      font-weight: 600;
+    }
+
+    /* FAQ */
+    details {
+      background: rgba(56,189,248,.08);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: .18s;
+    }
+
+    summary {
+      outline: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    details[open] {
+      background: rgba(56,189,248,.15);
+    }
+
+    details p {
+      margin-top: 0.6rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header class="navbar">
+    <div class="brand">Campus Connect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="groups.html">Groups</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="page">
+    <div class="card">
+
+      <h1>About Campus Connect</h1>
+      <p class="lead">
+        Campus Connect helps students discover events, join groups, collaborate on projects,
+        and connect through shared interests.
+      </p>
+
+      <div class="grid">
+
+        <section>
+          <h2>Project Overview</h2>
+          <ul class="list">
+            <li><span>Tech Stack:</span> React, Node.js, Express, PostgreSQL</li>
+            <li><span>Features:</span> Groups, chat, events, interest matching</li>
+            <li><span>Security:</span> College email verification & safe auth</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Team</h2>
+          <ul class="list">
+            <li><span>Ansh Bhardwaj</span> — Frontend & UI/UX</li>
+            <li><span>Ishika Garg</span> — Backend & APIs</li>
+            <li><span>Alsa Ahmad</span> — Database & Architecture</li>
+            <li><span>Kashish</span> — QA & Deployment</li>
+          </ul>
+        </section>
+
+      </div>
+
+      <section style="margin-top:1.8rem;">
+        <h2>Support</h2>
+        <p class="lead">Need help? Email <strong>support@campusconnect.example</strong>.</p>
+
+        <details>
+          <summary>How to join groups?</summary>
+          <p>Go to <strong>Groups → Explore</strong> and tap <strong>Join</strong>.</p>
+        </details>
+
+        <details>
+          <summary>How to report content?</summary>
+          <p>Open the post → click <strong>Report</strong> → admin reviews it.</p>
+        </details>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Campus Connect
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

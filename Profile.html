@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Connect — Profile</title>
+
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.35);
+      --radius: 18px;
+      --radius-pill: 999px;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --input-bg: rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,.16), transparent 55%),
+        radial-gradient(circle at bottom, rgba(59,130,246,.18), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: 0.18s;
+    }
+
+    .navbar a:hover {
+      color: var(--text);
+      background: rgba(56,189,248,0.14);
+      border-color: var(--border);
+    }
+
+    /* LAYOUT */
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 2.3rem 1.3rem 2.1rem;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 980px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.9rem 2.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,.10), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,.12), transparent 55%);
+    }
+
+    .profile-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .profile-sidebar {
+      flex: 0 0 260px;
+      max-width: 100%;
+    }
+
+    .profile-main {
+      flex: 1 1 360px;
+      min-width: 0;
+    }
+
+    @media (max-width: 720px) {
+      .profile-card {
+        padding: 1.6rem 1.5rem;
+      }
+      .profile-sidebar {
+        flex: 1 1 100%;
+      }
+    }
+
+    h3, h4 {
+      margin-top: 0;
+    }
+
+    /* AVATAR & STATS */
+    .avatar-wrap {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      margin: 0 auto 0.6rem;
+      border: 2px solid rgba(148, 163, 184, 0.6);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,.4), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,.45), transparent 65%),
+        #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--text);
+    }
+
+    .profile-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .panel {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 0.95rem 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .panel p {
+      margin: 0.2rem 0;
+    }
+
+    /* FORM & INPUTS */
+    .panel-form {
+      margin-bottom: 0.9rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      font-size: 0.9rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .input {
+      width: 100%;
+      margin-top: 0.15rem;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: var(--input-bg);
+      color: var(--text);
+      font: inherit;
+      resize: vertical;
+      min-height: 2.2rem;
+      outline: none;
+      transition: 0.18s;
+    }
+
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.45);
+    }
+
+    textarea.input {
+      min-height: 80px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.82rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      transition: 0.18s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #38bdf8, #0ea5e9);
+      border-color: transparent;
+      color: #0b1120;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      border-color: var(--border);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-outline:hover {
+      color: var(--text);
+      border-color: rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    /* TAGS */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.15rem;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* TEXT HELPERS */
+    .muted {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.1rem 1.4rem 1.3rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      font-size: 0.8rem;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), transparent 60%);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <h2>Campus Connect</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="groups.html">Groups</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="profile-card">
+      <div class="profile-layout">
+
+        <!-- LEFT SIDE: Avatar + Stats -->
+        <section class="profile-sidebar">
+          <div class="avatar-wrap">
+            <div class="avatar" id="profileAvatar">AB</div>
+            <h3 id="profileName">Your Name</h3>
+            <div class="profile-meta" id="profileDept">CSE • 3rd Year</div>
+            <button id="editAvatarBtn" class="btn btn-outline" type="button">
+              Change Avatar
+            </button>
+          </div>
+
+          <div class="panel">
+            <h4>Quick Stats</h4>
+            <p><strong>CGPA:</strong> <span id="cgpaVal">8.6</span></p>
+            <p><strong>Projects:</strong> <span id="projCount">4</span></p>
+            <p><strong>Groups:</strong> <span id="groupCount">3</span></p>
+          </div>
+        </section>
+
+        <!-- RIGHT SIDE: Edit form + Preview -->
+        <section class="profile-main">
+          <div class="panel panel-form">
+            <h3>Edit Profile</h3>
+            <form id="profileEditForm">
+              <div>
+                <label for="fullName">Full Name</label>
+                <input id="fullName" class="input" value="Your Name" />
+              </div>
+
+              <div>
+                <label for="deptYear">Department & Year</label>
+                <input id="deptYear" class="input" value="CSE • 3rd Year" />
+              </div>
+
+              <div>
+                <label for="cgpa">CGPA</label>
+                <input id="cgpa" class="input" value="8.6" />
+              </div>
+
+              <div>
+                <label for="interests">Interests (comma separated)</label>
+                <input id="interests" class="input" value="AI, Web Dev" />
+              </div>
+
+              <div>
+                <label for="skills">Skills (comma separated)</label>
+                <input id="skills" class="input" value="React, Python" />
+              </div>
+
+              <div>
+                <label for="bio">Bio</label>
+                <textarea id="bio" class="input">Brief about yourself...</textarea>
+              </div>
+
+              <div class="btn-row">
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+                <button id="cancelEdit" class="btn btn-outline" type="button">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel">
+            <h4>Public Profile Preview</h4>
+            <p>
+              <strong id="previewName">Your Name</strong>
+              — <span class="muted" id="previewDept">CSE • 3rd Year</span>
+            </p>
+            <p class="muted" id="previewBio">Brief about yourself...</p>
+
+            <div class="muted">Interests & Skills</div>
+            <div id="previewTags" class="tags">
+              <span class="tag">AI</span>
+              <span class="tag">Web Dev</span>
+              <span class="tag">React</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="yearProfile"></span> Campus Connect
+  </footer>
+
+  <script>
+    document.getElementById('yearProfile').textContent = new Date().getFullYear();
+
+    const fullNameInput = document.getElementById('fullName');
+    const deptYearInput = document.getElementById('deptYear');
+    const cgpaInput = document.getElementById('cgpa');
+    const interestsInput = document.getElementById('interests');
+    const skillsInput = document.getElementById('skills');
+    const bioInput = document.getElementById('bio');
+
+    const profileName = document.getElementById('profileName');
+    const profileDept = document.getElementById('profileDept');
+    const avatar = document.getElementById('profileAvatar');
+    const cgpaVal = document.getElementById('cgpaVal');
+
+    const previewName = document.getElementById('previewName');
+    const previewDept = document.getElementById('previewDept');
+    const previewBio = document.getElementById('previewBio');
+    const previewTags = document.getElementById('previewTags');
+
+    const form = document.getElementById('profileEditForm');
+    const cancelBtn = document.getElementById('cancelEdit');
+
+    function makeInitials(name) {
+      return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part[0]?.toUpperCase() || "")
+        .join("") || "CC";
+    }
+
+    function updatePreview() {
+      const name = fullNameInput.value.trim() || "Your Name";
+      const deptYear = deptYearInput.value.trim() || "Department • Year";
+      const bio = bioInput.value.trim() || "Brief about yourself...";
+      const interests = interestsInput.value.split(",").map(s => s.trim()).filter(Boolean);
+      const skills = skillsInput.value.split(",").map(s => s.trim()).filter(Boolean);
+
+      previewName.textContent = name;
+      previewDept.textContent = deptYear;
+      previewBio.textContent = bio;
+
+      profileName.textContent = name;
+      profileDept.textContent = deptYear;
+      avatar.textContent = makeInitials(name);
+
+      const cgpaValText = cgpaInput.value.trim();
+      cgpaVal.textContent = cgpaValText || "--";
+
+      previewTags.innerHTML = "";
+      [...interests, ...skills].forEach
+    }
